@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
 
   # Resolving container hostnames from host machine
@@ -17,6 +17,7 @@ services:
 #      - 10000:9090
     restart: always
     entrypoint: SocialGraphService
+    cpuset: 0-7
 
   social-graph-mongodb:
     image: mongo
@@ -24,6 +25,7 @@ services:
 #    ports:
 #      - 27018:27017
     restart: always
+    cpuset: 0-7
 
   social-graph-redis:
     image: redis
@@ -31,6 +33,7 @@ services:
 #    ports:
 #      - 6380:6379
     restart: always
+    cpuset: 0-7
 
   write-home-timeline-service:
     image: yg397/social-network-microservices
@@ -39,6 +42,7 @@ services:
     entrypoint: WriteHomeTimelineService
     depends_on:
       - write-home-timeline-rabbitmq
+    cpuset: 0-7
 
   write-home-timeline-rabbitmq:
     image: rabbitmq
@@ -50,6 +54,7 @@ services:
 #      - 15672:15672
 #      - 5672:5672
     restart: always
+    cpuset: 0-7
 
   home-timeline-redis:
     image: redis
@@ -57,6 +62,7 @@ services:
 #    ports:
 #      - 6381:6379
     restart: always
+    cpuset: 0-7
 
   compose-post-service:
     image: yg397/social-network-microservices
@@ -67,6 +73,7 @@ services:
     entrypoint: ComposePostService
     depends_on:
       - write-home-timeline-rabbitmq
+    cpuset: 0-7
 
   compose-post-redis:
     image: redis
@@ -74,6 +81,7 @@ services:
 #    ports:
 #      - 6382:6379
     restart: always
+    cpuset: 0-7
 
   post-storage-service:
     image: yg397/social-network-microservices
@@ -82,6 +90,7 @@ services:
       - 10002:9090
     restart: always
     entrypoint: PostStorageService
+    cpuset: 0-7
 
   post-storage-memcached:
     image: memcached
@@ -89,6 +98,7 @@ services:
 #    ports:
 #      - 11212:11211
     restart: always
+    cpuset: 0-7 
 
   post-storage-mongodb:
     image: mongo
@@ -96,6 +106,7 @@ services:
 #    ports:
 #      - 27019:27017
     restart: always
+    cpuset: 0-7
 
   user-timeline-service:
     image: yg397/social-network-microservices
@@ -104,6 +115,7 @@ services:
 #      - 10003:9090
     restart: always
     entrypoint: UserTimelineService
+    cpuset: 0-7
 
   user-timeline-redis:
     image: redis
@@ -111,6 +123,7 @@ services:
 #    ports:
 #      - 6383:6379
     restart: always
+    cpuset: 0-7
 
   user-timeline-mongodb:
     image: mongo
@@ -118,7 +131,8 @@ services:
 #    ports:
 #      - 27020:27017
     restart: always
-
+    cpuset: 0-7
+ 
   url-shorten-service:
     image: yg397/social-network-microservices
     hostname: url-shorten-service
@@ -126,6 +140,7 @@ services:
 #      - 10004:9090
     restart: always
     entrypoint: UrlShortenService
+    cpuset: 0-7
 
   url-shorten-memcached:
     image: memcached
@@ -133,6 +148,7 @@ services:
 #    ports:
 #      - 11213:11211
     restart: always
+    cpuset: 0-7
 
   url-shorten-mongodb:
     image: mongo
@@ -140,6 +156,7 @@ services:
 #    ports:
 #      - 27021:27017
     restart: always
+    cpuset: 0-7
 
   user-service:
     image: yg397/social-network-microservices
@@ -148,6 +165,7 @@ services:
 #      - 10005:9090
     restart: always
     entrypoint: UserService
+    cpuset: 0-7
 
   user-memcached:
     image: memcached
@@ -155,6 +173,7 @@ services:
 #    ports:
 #      - 11214:11211
     restart: always
+    cpuset: 0-7
 
   user-mongodb:
     image: mongo
@@ -162,7 +181,8 @@ services:
 #    ports:
 #      - 27023:27017
     restart: always
-
+    cpuset: 0-7
+ 
   media-service:
     image: yg397/social-network-microservices
     hostname: media-service
@@ -170,6 +190,7 @@ services:
 #      - 10006:9090
     restart: always
     entrypoint: MediaService
+    cpuset: 0-7
 
   media-memcached:
     image: memcached
@@ -177,6 +198,7 @@ services:
 #    ports:
 #      - 11215:11211
     restart: always
+    cpuset: 0-7
 
   media-mongodb:
     image: mongo
@@ -184,6 +206,7 @@ services:
 #    ports:
 #      - 27024:27017
     restart: always
+    cpuset: 0-7
 
   text-service:
     image: yg397/social-network-microservices
@@ -192,6 +215,7 @@ services:
 #      - 10007:9090
     restart: always
     entrypoint: TextService
+    cpuset: 0-7
 
   unique-id-service:
     image: yg397/social-network-microservices
@@ -200,7 +224,8 @@ services:
 #      - 10008:9090
     restart: always
     entrypoint: UniqueIdService
-
+    cpuset: 0-7
+ 
   user-mention-service:
     image: yg397/social-network-microservices
     hostname: user-mention-service
@@ -208,6 +233,7 @@ services:
 #      - 10009:9090
     restart: always
     entrypoint: UserMentionService
+    cpuset: 0-7
 
   home-timeline-service:
     image: yg397/social-network-microservices
@@ -216,6 +242,7 @@ services:
 #      - 10010:9090
     restart: always
     entrypoint: HomeTimelineService
+    cpuset: 0-7
 
   nginx-thrift:
     image: yg397/openresty-thrift:xenial
@@ -229,7 +256,8 @@ services:
       - ./nginx-web-server/conf/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
       - ./nginx-web-server/jaeger-config.json:/usr/local/openresty/nginx/jaeger-config.json
       - ./gen-lua:/gen-lua
-
+    cpuset: 0-7
+ 
   media-frontend:
     image: yg397/media-frontend:xenial
     hostname: media-frontend
@@ -239,18 +267,69 @@ services:
     volumes:
       - ./media-frontend/lua-scripts:/usr/local/openresty/nginx/lua-scripts
       - ./media-frontend/conf/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+    cpuset: 0-7
 
   jaeger:
     image: jaegertracing/all-in-one:latest
     hostname: jaeger
     ports:
-#      - 5775:5775/udp
-#      - 6831:6831/udp
-#      - 6832:6832/udp
-#      - 5778:5778
+      - 5775:5775/udp
+      - 6831:6831/udp
+      - 6832:6832/udp
+      - 5778:5778
       - 16686:16686
-#      - 14268:14268
-#      - 9411:9411
+      - 14269:14269
+      - 9411:9411
     restart: always
     environment:
       - COLLECTOR_ZIPKIN_HTTP_PORT=9411
+    cpuset: 0-7
+
+  prometheus:
+    image: 'prom/prometheus:latest'
+    container_name: prometheus
+    ports:
+    - '9090:9090'
+    command:
+    - '--config.file=/etc/prometheus/prometheus.yml'
+    - '--storage.tsdb.path=/prometheus'
+    - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+    - '--web.console.templates=/usr/share/prometheus/consoles'
+    volumes:
+    - './prometheus.yml:/etc/prometheus/prometheus.yml:ro'
+    - './alert.rules:/etc/prometheus/alert.rules'
+    depends_on:
+    - cadvisor
+    - jaeger
+    restart: always
+
+  cadvisor:
+    image: google/cadvisor:latest
+    container_name: cadvisor
+    ports:
+    - '8090:8080'
+    volumes:
+    - '/:/rootfs:ro'
+    - '/var/run:/var/run:rw'
+    - '/sys:/sys:ro'
+    - '/var/lib/docker/:/var/lib/docker:ro'
+
+  grafana:
+    image: grafana/grafana
+    depends_on:
+    - prometheus
+    ports:
+    - '3000:3000'
+    volumes:
+    - 'grafana_data:/var/lib/grafana'
+    - './grafana/provisioning/:/etc/grafana/provisioning/'
+    env_file:
+    - ./grafana/config.monitoring
+    restart: always
+
+volumes:
+  grafana_data: {}
+  prometheus_data: {}
+
+
+
